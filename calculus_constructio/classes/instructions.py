@@ -197,7 +197,7 @@ def swap(p: Point) -> Point:
     return ~p
 
 
-@instruction("NewList", None, "#")
+@instruction("NewList", None, "*")
 def new(*args: object) -> list:
     return [*args]
 
@@ -218,9 +218,12 @@ def eq(x: object, y: object) -> Point:
     return Point(int(x == y), 0)
 
 
-@instruction("To2List", 1, "/")
-def tol(p: Point) -> list:
-    return [p.x, p.y]
+@instruction("ToList", 1, "/")
+def tol(p: Point | Construction) -> list:
+    if isinstance(p, Point):
+        return [p.x, p.y]
+    else:
+        return p.points.copy()
 
 
 @instruction("ToPoint", 1, ".")
