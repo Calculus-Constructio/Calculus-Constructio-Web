@@ -16,7 +16,8 @@ Multiple flags can be passed on by adding these values together.
 ### `-i` `--input`
 Insert the file path to the input here. If your program does not require input, you may omit this completely.
 
-## Syntax
+## Programs
+### Syntax
 Each program is a series of newline separated instructions. Each instruction looks like this:
 
 `variable_name:instruction arg,arg,...`
@@ -24,6 +25,11 @@ Each program is a series of newline separated instructions. Each instruction loo
 * The `instruction` is applied...
 * ...to the `arg,arg,...` (arguments), which must be variables...
 * ...and the result is assigned to the variable called `variable_name`.
+
+### Constants
+There are two default constants that every module, function and program has access to:
+* `zero`, which is the point (0, 0).
+* `one`, which is the point (1, 0).
 
 ### Input
 Input is given through the `input` variable. When no input is given, it will be an empty list.
