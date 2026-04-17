@@ -30,8 +30,11 @@ def solve_simultaneous(*args):
     except TypeError:
         try:
             v = [*s.values()]
-            sols = [(v[0], v[1])]
-            assert sols[0][0].is_real and sols[0][1].is_real
+            sols = [Point(v[0], v[1])]
+            try:
+                assert sols[0].x.is_real and sols[0].y.is_real
+            except AttributeError:
+                assert not(isinstance(sols[0].x, complex) or isinstance(sols[0].y, complex))
         except AssertionError:
             sols = []
     if len(sols) == 0:
