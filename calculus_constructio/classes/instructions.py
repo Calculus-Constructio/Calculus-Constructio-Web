@@ -266,3 +266,9 @@ def halt(s: Any) -> NoReturn:
 @instruction("Print", 1, ">")
 def prin(s: Any) -> None:
     print(s)
+
+@instruction("Ternary", 3, "{")
+def ternary(cond: Point, true: object, false: object) -> object:
+    if cond.x:
+        return true
+    return false
