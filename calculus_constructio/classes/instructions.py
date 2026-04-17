@@ -226,7 +226,7 @@ def eq(x: object, y: object) -> Point:
 @instruction("ToList", 1, "/")
 def tol(p: Point | Construction) -> list:
     if isinstance(p, Point):
-        return [p.x, p.y]
+        return [Point(p.x, 0), Point(p.y, 0)]
     else:
         return p.points.copy()
 
