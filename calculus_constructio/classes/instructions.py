@@ -233,7 +233,7 @@ def tol(p: Point | Construction) -> list:
 
 @instruction("ToPoint", 1, ".")
 def top(lisst: list) -> Point:
-    return Point(lisst[0], lisst[1])
+    return Point(lisst[0].x, lisst[1].x)
 
 
 @instruction("If", 4, "?")
