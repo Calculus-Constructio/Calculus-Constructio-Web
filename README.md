@@ -49,6 +49,17 @@ Modules can be imported using the `Import` or `!` instruction, assigning it to a
 ### Functions
 Functions can be defined starting with the `Define` or `$` instruction, followed by its arguments as comma-separated names, assigning it to the variable name. The body of the function is just normal syntax, except the return value of the function should be assigned to the `return` variable. The function should be ended by using the same variable name with the `EndDefine` or `%` function, with no arguments following. Functions can be applied using the `Apply` or `Y` instruction. Functions must have at least one argument, however that argument can just be a dummy argument that isn't used if necessary. Functions cannot access any external variables apart from modules, other functions, and arguments passed in to it.
 
+### Types
+Here is a list of types and what they mean:
+* A `CModule` represents a module imported into a program. It is also what the main program is turned into before being run.
+* A `CFunction` is a custom function defined in a program.
+* A `List` is just a list.
+* A `Construction` is an object created using points, or one of:
+  * `Line`
+  * `Circle`
+  * `Polynomial`
+  * `Parametric`
+
 ### List of instructions
 It is worth noting that each instruction has a long form and a short form, and when a `Point` is given to a function that should seemingly accept a number, the number is taken from the point's x coordinate.
 
