@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 import os
+import shlex
 import subprocess
 from secrets import token_hex
 
@@ -22,7 +23,7 @@ def interpret():
   i_path = os.path.abspath(dom + ".txt")
   p_path = "calculus_constructio/main.py"
   try:
-    data = subprocess.run(f'python "{p_path}" -p "{c_path}" -i "{i_path}"', capture_output=True, text=True, timeout=60)
+    data = subprocess.run(shlex.split(f'python "{p_path}" -p "{c_path}" -i "{i_path}"'), capture_output=True, text=True, timeout=60)
     return {"output": data.stdout, "error": data.stderr, "timeout_warning": False}
   except subprocess.TimeoutExpired as e:
     out = e.stdout
