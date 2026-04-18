@@ -40,6 +40,10 @@ p {text-align: center;}
 window.post = function(url, data) {
   return fetch(url, {method: "POST", headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data)});
 }
+function resize(textarea) {
+  textarea.style.height = textarea.scrollHeight + "px";
+  textarea.style.overflowY = "hidden";
+}
 document.querySelectorAll("textarea").forEach(function(textarea) {
   textarea.style.height = textarea.scrollHeight + "px";
   textarea.style.overflowY = "hidden";
@@ -64,6 +68,8 @@ async function doit() {
         let response = await promise.then(function(response){return response.json();});
         document.getElementById("output").value = response["output"];
         document.getElementById("error").value = response["error"];
+        resize(document.getElementById("output"));
+        resize(document.getElementById("error"));
         if (response["timeout_warning"]) {
             document.getElementById("warning").innerText = "The program exceeded the 60 second time limit and was killed.";
         }
