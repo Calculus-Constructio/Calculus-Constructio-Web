@@ -52,7 +52,7 @@ function getFlagValue() {
 };
 async function doit() {
     document.getElementById("warning").innerText = ""
-    let promise = post(`${document.URL}interpret/`, {'code': document.getElementById("code").value, 'input': document.getElementById("input").value, 'flag': document.getElementById("flag").value});
+    let promise = post(`${document.URL}interpret/`, {'code': document.getElementById("code").value, 'input': document.getElementById("input").value, 'flag': getFlagValue()});
     let response = await promise.then(function(response){return response.json();});
     document.getElementById("output").value = response["output"];
     document.getElementById("error").value = response["error"];
