@@ -16,14 +16,19 @@ def interpret():
   inp = request.json["input"]
   flag = request.json["flag"]
   dom = token_hex(64)
-  with open(dom + ".cns", "x") as cod, open(dom + ".txt", "x") as inn:
+  no_inp = False
+  with open(dom + ".cns", "x") as cod:
     cod.write(code)
-    inn.write(inp)
+  if inp != '':
+    with open(dom + ".txt", "x") as inn:
+      inn.write(inp)
+  else:
+      no_inp = True
   c_path = os.path.abspath(dom + ".cns")
   i_path = os.path.abspath(dom + ".txt")
   p_path = "calculus_constructio/main.py"
   try:
-    data = subprocess.run(shlex.split(f'python "{p_path}" -p "{c_path}" -i "{i_path}"'), capture_output=True, text=True, timeout=60)
+    data = subprocess.run(shlex.split(f'python "{p_path}" -p "{c_path}" {f"-i {i_path}" if not no_inp else ""} -f {flag}'), capture_output=True, text=True, timeout=60)
     return {"output": data.stdout, "error": data.stderr, "timeout_warning": False}
   except subprocess.TimeoutExpired as e:
     out = e.stdout
