@@ -1,10 +1,36 @@
 <!DOCTYPE HTML>
+<html>
+<head>
+<style>
+textarea {
+  resize: none;
+  width: 100%;
+}
+p {text-align: center;}
+</style>
+</head>
+<body>
 <div id="run">
+<h3>Code</h3>
 <textarea id="code" autocorrect="off" form="run" name="code"></textarea>
+<br/>
+<h3>Input</h3>
 <textarea id="input" autocorrect="off" form="run" name="input"></textarea>
+<br/>
+<h3>STDOUT</h3>
 <textarea readonly id="output"></textarea>
+<br/>
+<h3>STDERR</h3>
 <textarea readonly id="error"></textarea>
-<input id="flag" type="text" name="flag"/>
+<br/>
+<h3>Flags</h3>
+<input type="checkbox" id="UseUnicodeInput"/>
+<label for="UseUnicodeInput">UseUnicodeInput</label><br/>
+<input type="checkbox" id="UseUnicodeOutput"/>
+<label for="UseUnicodeOutput">UseUnicodeOutput</label><br/>
+<input type="checkbox" id="OutputAllVars"/>
+<label for="OutputAllVars">OutputAllVars</label><br/>
+<br/>
 <input id="submit" type="button" value="Run"/>
 <p id="warning"></p>
 </div>
@@ -12,17 +38,31 @@
 window.post = function(url, data) {
   return fetch(url, {method: "POST", headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data)});
 }
+document.querySelectorAll("textarea").forEach(function(textarea) {
+  textarea.style.height = textarea.scrollHeight + "px";
+  textarea.style.overflowY = "hidden";
+
+  textarea.addEventListener("input", function() {
+    this.style.height = "auto";
+    this.style.height = this.scrollHeight + "px";
+  });
+});
+function getFlagValue() {
+    return (document.getElementById("OutputAllVars").checked*4 + document.getElementById("UseUnicodeOutput").checked*2 + document.getElementById("UseUnicodeInput").checked*1)
+};
 async function doit() {
     document.getElementById("warning").innerText = ""
-    let promise = post(`${document.URL}interpret/`, {'code': document.getElementById("code").value, 'input': document.getElementById("input").value, 'flag': document.getElementById("flag").value})
-    let response = await promise.then(function(response){return response.json();})
-    document.getElementById("output").value = response["output"]
-    document.getElementById("error").value = response["error"]
+    let promise = post(`${document.URL}interpret/`, {'code': document.getElementById("code").value, 'input': document.getElementById("input").value, 'flag': document.getElementById("flag").value});
+    let response = await promise.then(function(response){return response.json();});
+    document.getElementById("output").value = response["output"];
+    document.getElementById("error").value = response["error"];
     if (response["timeout_warning"]) {
-        document.getElementById("warning").innerText = "The program exceeded the 60 second time limit and was killed."
+        document.getElementById("warning").innerText = "The program exceeded the 60 second time limit and was killed.";
     }
-}
+};
 document.getElementById("submit").onclick=async() => {
   await doit();
 };
 </script>
+</body>
+</html>
