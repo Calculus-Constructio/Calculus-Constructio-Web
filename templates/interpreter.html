@@ -8,8 +8,12 @@
 
 </textarea>
 <input id="flag" type="text"/>
-<input id="submit" type="button" value="Run" onclick="await runCode();"/>
+<input id="submit" type="button" value="Run"/>
 <script>
+document.getElementById("submit").onclick=async() => { // Stolen from https://stackoverflow.com/a/67509739
+  await runCode();
+};
+
 function convertToHex(str) { // Stolen from https://stackoverflow.com/questions/21647928/javascript-unicode-string-to-hex
     var hex = '';
     for(var i=0;i<str.length;i++) {
@@ -17,6 +21,7 @@ function convertToHex(str) { // Stolen from https://stackoverflow.com/questions/
     }
     return hex;
 }
+
 async function runCode() {
     code = convertToHex(document.getElementById("code").value)
     input = convertToHex(document.getElementById("input").value)
