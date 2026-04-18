@@ -7,6 +7,7 @@ textarea {
   width: 100%;
 }
 p {text-align: center;}
+#submit {text-align: center;}
 </style>
 </head>
 <body>
@@ -31,6 +32,7 @@ p {text-align: center;}
 <input type="checkbox" id="OutputAllVars"/>
 <label for="OutputAllVars">OutputAllVars</label><br/>
 <br/>
+<p id="status"></p>
 <input id="submit" type="button" value="Run"/>
 <p id="warning"></p>
 </div>
@@ -50,14 +52,23 @@ document.querySelectorAll("textarea").forEach(function(textarea) {
 function getFlagValue() {
     return (document.getElementById("OutputAllVars").checked*4 + document.getElementById("UseUnicodeOutput").checked*2 + document.getElementById("UseUnicodeInput").checked*1)
 };
+let lock = false
 async function doit() {
-    document.getElementById("warning").innerText = ""
-    let promise = post(`${document.URL}interpret/`, {'code': document.getElementById("code").value, 'input': document.getElementById("input").value, 'flag': getFlagValue()});
-    let response = await promise.then(function(response){return response.json();});
-    document.getElementById("output").value = response["output"];
-    document.getElementById("error").value = response["error"];
-    if (response["timeout_warning"]) {
-        document.getElementById("warning").innerText = "The program exceeded the 60 second time limit and was killed.";
+    if (!lock) {
+        lock = true
+        document.getElementById("status").innerText = "Running..."
+        document.getElementById("warning").innerText = ""
+        document.getElementById("output").innerText = ""
+        document.getElementById("error").innerText = ""
+        let promise = post(`${document.URL}interpret/`, {'code': document.getElementById("code").value, 'input': document.getElementById("input").value, 'flag': getFlagValue()});
+        let response = await promise.then(function(response){return response.json();});
+        document.getElementById("output").value = response["output"];
+        document.getElementById("error").value = response["error"];
+        if (response["timeout_warning"]) {
+            document.getElementById("warning").innerText = "The program exceeded the 60 second time limit and was killed.";
+        }
+        document.getElementById("status").innerText = ""
+        lock = false
     }
 };
 document.getElementById("submit").onclick=async() => {
