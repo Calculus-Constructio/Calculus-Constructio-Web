@@ -8,7 +8,7 @@ def hello():
 
 @app.route("/interpret/", methods=["POST"])
 def interpret():
-  code = request.form["code"]
-  inp = request.form["input"]
-  flag = request.form["flag"]
+  code = request.json["code"]
+  inp = request.json["input"]
+  flag = request.json["flag"]
   return str([code, inp, flag])
