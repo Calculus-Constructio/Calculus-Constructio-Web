@@ -86,6 +86,9 @@ function copyURL() {
 }
 function toLink() {
   base_url = document.URL;
+  if (base_url.includes("#")) {
+    base_url = url.substring(0, url.indexOf('#'))
+  }
   code = new TextEncoder().encode(document.getElementById("code").value).toBase64({alphabet: 'base64url', omitPadding: true});
   input = new TextEncoder().encode(document.getElementById("input").value).toBase64({alphabet: 'base64url', omitPadding: true});
   flag = getFlagValue();
@@ -111,11 +114,15 @@ let lock = false
 async function doit() {
     if (!lock) {
         lock = true
+        base_url = document.URL
+        if (base_url.includes("#")) {
+          base_url = url.substring(0, url.indexOf('#'))
+        }
         document.getElementById("status").innerText = "Running..."
         document.getElementById("warning").innerText = ""
         document.getElementById("output").innerText = ""
         document.getElementById("error").innerText = ""
-        let promise = post(`${document.URL}interpret/`, {'code': document.getElementById("code").value, 'input': document.getElementById("input").value, 'flag': getFlagValue()});
+        let promise = post(`${base_url}interpret/`, {'code': document.getElementById("code").value, 'input': document.getElementById("input").value, 'flag': getFlagValue()});
         let response = await promise.then(function(response){return response.json();});
         document.getElementById("output").value = response["output"];
         document.getElementById("error").value = response["error"];
