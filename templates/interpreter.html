@@ -46,6 +46,11 @@ p, h1, .center {text-align: center;}
 </div>
 </div>
 <script>
+function resize(textarea) {
+  textarea.style.height = "0px"
+  textarea.style.height = textarea.scrollHeight + "px";
+  textarea.style.overflowY = "hidden";
+}
 function loadFlags(binary_string) {
   b = "0".repeat(3 - binary_string.length) + binary_string
   document.getElementById("OutputAllVars").checked = parseInt(b[0]);
@@ -60,7 +65,9 @@ addEventListener("DOMContentLoaded", function() {
       input = new TextDecoder('utf-8').decode(Uint8Array.fromBase64(data[1], {alphabet: "base64url"}));
       flag = parseInt(data[2]).toString(2);
       document.getElementById("code").value = code;
+      resize(document.getElementById("code"));
       document.getElementById("input").value = input;
+      resize(document.getElementById("input"));
       loadFlags(flag);
     };
 });
@@ -87,11 +94,6 @@ function toLink() {
 }
 window.post = function(url, data) {
   return fetch(url, {method: "POST", headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data)});
-}
-function resize(textarea) {
-  textarea.style.height = "0px"
-  textarea.style.height = textarea.scrollHeight + "px";
-  textarea.style.overflowY = "hidden";
 }
 document.querySelectorAll("textarea").forEach(function(textarea) {
   textarea.style.height = textarea.scrollHeight + "px";
