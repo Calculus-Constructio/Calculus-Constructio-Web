@@ -1,7 +1,9 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<title>Calculus Constructio Online Interpreter</title>
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <style>
@@ -131,7 +133,7 @@ function copyURL() {
 function toLink() {
   let base_url = document.URL;
   if (base_url.includes("#")) {
-    let base_url = url.substring(0, url.indexOf('#'));
+    base_url = base_url.substring(0, base_url.indexOf('#'));
   };
   let code = new TextEncoder().encode(document.getElementById("code").value).toBase64({alphabet: 'base64url', omitPadding: true});
   let input = new TextEncoder().encode(document.getElementById("input").value).toBase64({alphabet: 'base64url', omitPadding: true});
@@ -151,7 +153,7 @@ async function doit() {
         lock = true;
         let base_url = document.URL;
         if (base_url.includes("#")) {
-          let base_url = url.substring(0, url.indexOf('#'));
+          base_url = base_url.substring(0, base_url.indexOf('#'));
         }
         document.getElementById("status").innerText = "Running...";
         document.getElementById("warning").innerHTML = "";
