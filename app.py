@@ -26,9 +26,8 @@ def interpret():
       no_inp = True
   c_path = os.path.abspath(dom + ".cns")
   i_path = os.path.abspath(dom + ".txt")
-  p_path = "calculus_constructio/main.py"
   try:
-    data = subprocess.run(shlex.split(f'python "{p_path}" -p "{c_path}" {f"-i {i_path}" if not no_inp else ""} -f {flag}'), capture_output=True, text=True, timeout=60)
+    data = subprocess.run(shlex.split(f'calculus_constructio -p "{c_path}" {f"-i {i_path}" if not no_inp else ""} -f {flag}'), capture_output=True, text=True, timeout=60)
     out_warning = len(data.stdout) > 128000
     err_warning = len(data.stderr) > 128000
     try:
