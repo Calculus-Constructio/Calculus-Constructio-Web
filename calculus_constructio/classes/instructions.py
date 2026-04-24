@@ -272,3 +272,10 @@ def ternary(cond: Point, true: object, false: object) -> object:
     if cond.x:
         return true
     return false
+
+@instruction("Repeat", 3, "R")
+def for_loop(f: CFunction, times: Point, args: list) -> list:
+    a = args
+    for _ in range(times.x):
+        a = f.evaluate(*a)
+    return a
